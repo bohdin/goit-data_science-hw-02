@@ -26,9 +26,10 @@ insert into tasks(title, status_id, user_id)
 values ('TEST', 1, 48)
 
 -- Отримати всі завдання, які ще не завершено.
-select *
-from tasks t 
-where status_id != 3
+select t.id, t.title, t.description, s."name"
+from tasks t
+join status s on s.id = t.status_id
+where s."name"  != 'completed'
 
 -- Видалити конкретне завдання.
 delete 
@@ -59,7 +60,7 @@ where u.email like '%@example.net'
 -- Отримати список завдань, що не мають опису.
 select *
 from tasks t 
-where description is null 
+where description is null or description = ''
 
 -- Вибрати користувачів та їхні завдання, які є у статусі in progress
 select u.fullname, t.title , s."name" 
